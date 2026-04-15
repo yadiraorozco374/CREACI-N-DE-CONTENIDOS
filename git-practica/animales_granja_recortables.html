@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Animales de la Granja - Recortables</title>
+    <title>Animales de la Granja - Recortables Interactivos</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -21,12 +21,13 @@
             margin-bottom: 40px;
             color: #666;
             font-size: 1.2rem;
+            padding: 0 20px;
         }
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 30px;
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
         }
         .card {
@@ -36,6 +37,17 @@
             padding: 30px 20px;
             position: relative;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+            user-select: none;
+        }
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+            background-color: #fffaf0;
+        }
+        .card:active {
+            transform: scale(0.98);
         }
         .scissors {
             position: absolute;
@@ -48,6 +60,10 @@
         .icon {
             font-size: 6rem;
             margin: 15px 0;
+            transition: transform 0.3s;
+        }
+        .card:hover .icon {
+            transform: translateY(-10px);
         }
         .name {
             font-size: 1.8rem;
@@ -55,6 +71,12 @@
             color: #333;
             text-transform: capitalize;
             letter-spacing: 1px;
+        }
+        .sound-icon {
+            font-size: 1.2rem;
+            margin-left: 5px;
+            opacity: 0.6;
+            vertical-align: middle;
         }
         
         @media print {
@@ -66,6 +88,8 @@
                 box-shadow: none; 
                 border-color: black; 
                 break-inside: avoid;
+                transform: none !important;
+                background-color: white !important;
             }
             .grid { 
                 max-width: 100%; 
@@ -83,56 +107,100 @@
             .instructions {
                 display: none;
             }
+            .sound-icon {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
 
     <h1>🚜 Animales de la Granja 🧑‍🌾</h1>
-    <p class="instructions">¡Imprime esta hoja y usa las tijeras para recortar por la línea punteada!</p>
+    <p class="instructions">
+        <strong>¡Haz clic en cada animal para escuchar su sonido REAL!</strong> 🔊<br>
+        También puedes imprimir esta página, colorearla y usar las tijeras para recortarla.
+    </p>
 
-    <div class="grid">
-        <div class="card">
-            <span class="scissors">✂️</span>
-            <div class="icon">🐄</div>
-            <div class="name">vaca</div>
-        </div>
-        <div class="card">
-            <span class="scissors">✂️</span>
-            <div class="icon">🐖</div>
-            <div class="name">cerdo</div>
-        </div>
-        <div class="card">
-            <span class="scissors">✂️</span>
-            <div class="icon">🐎</div>
-            <div class="name">caballo</div>
-        </div>
-        <div class="card">
-            <span class="scissors">✂️</span>
-            <div class="icon">🐓</div>
-            <div class="name">gallo</div>
-        </div>
-        <div class="card">
-            <span class="scissors">✂️</span>
-            <div class="icon">🐑</div>
-            <div class="name">oveja</div>
-        </div>
-        <div class="card">
-            <span class="scissors">✂️</span>
-            <div class="icon">🦆</div>
-            <div class="name">pato</div>
-        </div>
-        <div class="card">
-            <span class="scissors">✂️</span>
-            <div class="icon">🐕</div>
-            <div class="name">perro</div>
-        </div>
-        <div class="card">
-            <span class="scissors">✂️</span>
-            <div class="icon">🐈</div>
-            <div class="name">gato</div>
-        </div>
+    <div class="grid" id="animal-grid">
+        <!-- Generado por JS -->
     </div>
 
+    <script>
+        // Hemos actualizado a la librería de audios reales (gracias a los recursos de Google)
+        const animales = [
+            { icon: '🐄', name: 'vaca', realSound: 'https://www.google.com/logos/fnbx/animal_sounds/cow.mp3', fallback: 'Muuuu, muu' },
+            { icon: '🐖', name: 'cerdo', realSound: 'https://www.google.com/logos/fnbx/animal_sounds/pig.mp3', fallback: 'Oink, oink' },
+            { icon: '🐎', name: 'caballo', realSound: 'https://www.google.com/logos/fnbx/animal_sounds/horse.mp3', fallback: 'Hiiiii, hiiiiiii' },
+            { icon: '🐓', name: 'gallo', realSound: 'https://www.google.com/logos/fnbx/animal_sounds/rooster.mp3', fallback: '¡Kikirikí!' },
+            { icon: '🐑', name: 'oveja', realSound: 'https://www.google.com/logos/fnbx/animal_sounds/sheep.mp3', fallback: 'Meeeee, meeeee' },
+            { icon: '🦆', name: 'pato', realSound: 'https://www.google.com/logos/fnbx/animal_sounds/duck.mp3', fallback: 'Cuac, cuac' },
+            { icon: '🐕', name: 'perro', realSound: 'https://www.google.com/logos/fnbx/animal_sounds/dog.mp3', fallback: 'Guau, guau' },
+            { icon: '🐈', name: 'gato', realSound: 'https://www.google.com/logos/fnbx/animal_sounds/cat.mp3', fallback: 'Miau, miau' },
+            { icon: '🐥', name: 'pollito', realSound: 'https://soundbible.com/mp3/Baby%20Chicks-SoundBible.com-147311746.mp3', fallback: 'Pío, pío, pío' },
+            { icon: '🦃', name: 'pavo', realSound: 'https://www.google.com/logos/fnbx/animal_sounds/turkey.mp3', fallback: 'Gluglú, gluglú' },
+            { icon: '🐴', name: 'burro', realSound: 'https://soundbible.com/mp3/Donkey-SoundBible.com-1845112108.mp3', fallback: 'I a, I a' },
+            { icon: '🐁', name: 'ratón', realSound: 'https://soundbible.com/mp3/Mouse%20Squeak-SoundBible.com-319584440.mp3', fallback: 'Iii, iii' },
+            { icon: '🐂', name: 'toro', realSound: 'https://soundbible.com/mp3/Cow%20Moos%203x-SoundBible.com-520346669.mp3', fallback: 'Muuuu' }, 
+            { icon: '🐐', name: 'cabra', realSound: 'https://soundbible.com/mp3/Goat-SoundBible.com-1748283307.mp3', fallback: 'Béeeeee, béeeee' }
+        ];
+
+        const grid = document.getElementById('animal-grid');
+        let currentAudio = null;
+
+        animales.forEach(animal => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.onclick = () => playRealSound(animal.realSound, animal.fallback, animal.name);
+            
+            card.innerHTML = `
+                <span class="scissors">✂️</span>
+                <div class="icon">${animal.icon}</div>
+                <div class="name">${animal.name} <span class="sound-icon">🔊</span></div>
+            `;
+            
+            grid.appendChild(card);
+        });
+
+        const synthesis = window.speechSynthesis;
+        
+        function playRealSound(url, fallbackText, animalName) {
+            // Detener el sonido anterior de inmediato si lo había
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+            }
+            synthesis.cancel(); // Detener narrador de la versión anterior por si acaso
+
+            // Intentar reproducir el sonido real en MP3 que trajimos de la biblioteca oficial
+            const audio = new Audio(url);
+            currentAudio = audio;
+            
+            audio.play().catch(e => {
+                // Si el dispositivo está sin internet o el audio falla, pasamos al plan de respaldo (narrador)
+                console.log("Cargando sonido de emergencia para: " + animalName);
+                playFallbackSound(fallbackText, animalName);
+            });
+        }
+
+        // El Plan B sigue usando Web Speech API en caso de que un usuario no tenga internet
+        function playFallbackSound(soundText, animalName) {
+            const utterance = new SpeechSynthesisUtterance(soundText);
+            utterance.lang = 'es-ES'; 
+            utterance.pitch = 1.0;
+            
+            if (animalName === 'vaca' || animalName === 'toro' || animalName === 'cerdo') {
+                utterance.pitch = 0.4;
+            } else if (animalName === 'pollito' || animalName === 'ratón') {
+                utterance.pitch = 2.0; 
+            } else if (animalName === 'pato' || animalName === 'gato') {
+                utterance.pitch = 1.4; 
+            } else if (animalName === 'caballo' || animalName === 'burro') {
+                utterance.pitch = 0.7; 
+            }
+            
+            utterance.rate = 0.85; 
+            synthesis.speak(utterance);
+        }
+    </script>
 </body>
 </html>
