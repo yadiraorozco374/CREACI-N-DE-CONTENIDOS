@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animales de la Granja - Recortables</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        .instructions {
+            margin-bottom: 40px;
+            color: #666;
+            font-size: 1.2rem;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .card {
+            background: white;
+            border: 3px dashed #555;
+            border-radius: 15px;
+            padding: 30px 20px;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .scissors {
+            position: absolute;
+            top: -18px;
+            left: 15px;
+            background: #f9f9f9;
+            padding: 0 5px;
+            font-size: 1.5rem;
+        }
+        .icon {
+            font-size: 6rem;
+            margin: 15px 0;
+        }
+        .name {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #333;
+            text-transform: capitalize;
+            letter-spacing: 1px;
+        }
+        
+        @media print {
+            body { 
+                background: white; 
+                padding: 0;
+            }
+            .card { 
+                box-shadow: none; 
+                border-color: black; 
+                break-inside: avoid;
+            }
+            .grid { 
+                max-width: 100%; 
+                display: block; 
+            }
+            .card { 
+                display: inline-block; 
+                width: 38%; 
+                margin: 15px; 
+                vertical-align: top; 
+            }
+            .scissors {
+                background: white;
+            }
+            .instructions {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🚜 Animales de la Granja 🧑‍🌾</h1>
+    <p class="instructions">¡Imprime esta hoja y usa las tijeras para recortar por la línea punteada!</p>
+
+    <div class="grid">
+        <div class="card">
+            <span class="scissors">✂️</span>
+            <div class="icon">🐄</div>
+            <div class="name">vaca</div>
+        </div>
+        <div class="card">
+            <span class="scissors">✂️</span>
+            <div class="icon">🐖</div>
+            <div class="name">cerdo</div>
+        </div>
+        <div class="card">
+            <span class="scissors">✂️</span>
+            <div class="icon">🐎</div>
+            <div class="name">caballo</div>
+        </div>
+        <div class="card">
+            <span class="scissors">✂️</span>
+            <div class="icon">🐓</div>
+            <div class="name">gallo</div>
+        </div>
+        <div class="card">
+            <span class="scissors">✂️</span>
+            <div class="icon">🐑</div>
+            <div class="name">oveja</div>
+        </div>
+        <div class="card">
+            <span class="scissors">✂️</span>
+            <div class="icon">🦆</div>
+            <div class="name">pato</div>
+        </div>
+        <div class="card">
+            <span class="scissors">✂️</span>
+            <div class="icon">🐕</div>
+            <div class="name">perro</div>
+        </div>
+        <div class="card">
+            <span class="scissors">✂️</span>
+            <div class="icon">🐈</div>
+            <div class="name">gato</div>
+        </div>
+    </div>
+
+</body>
+</html>
